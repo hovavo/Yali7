@@ -32145,7 +32145,7 @@ var InteractionManager = function (_EventEmitter) {
          * This property determines if mousemove and touchmove events are fired only when the cursor
          * is over the object.
          * Setting to true will make things work more in line with how the DOM verison works.
-         * Setting to false can make things easier for things like dragging
+         * Setting to false can make things easier for things like isDragging
          * It is currently set to false as this is how pixi used to work. This will be set to true in
          * future versions of pixi.
          *
