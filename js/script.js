@@ -7,12 +7,13 @@ var isIdle = true;
 var isDragging = false;
 var isPointerDown = false;
 var idleTimeout;
-var bgColor = 0xFFFFFF;
-var digitScale = 1.8;
+var bgColor = 0x154379;
+var digitScale = 1.6;
 var drawFunc;
 var digitPoints;
 var pointer;
 var center;
+var title;
 
 var app = new PIXI.Application(0, 0, {backgroundColor: bgColor});
 document.body.appendChild(app.view);
@@ -21,17 +22,25 @@ app.renderer.autoResize = true;
 app.renderer.resize(window.innerWidth, window.innerHeight);
 center = new PIXI.Point(
   app.renderer.width / 2,
-  app.renderer.height * 0.6
+  app.renderer.height * 0.65
 );
 
 app.stage.interactive = true;
+
+title = PIXI.Sprite.fromImage('assets/title.png');
+title.anchor.set(0.5);
+title.scale.set(0.75);
+title.x = center.x;
+title.y = app.renderer.height * 0.2;
 
 var sprites = new PIXI.particles.ParticleContainer(100, {
   position: true,
   rotation: true
 });
 
+app.stage.addChild(title);
 app.stage.addChild(sprites);
+
 
 createGerms();
 
@@ -148,10 +157,16 @@ function drawDigit() {
   });
 }
 
+function wiggleDigit() {
+  digitGerms.forEach(function (germ, i) {
+    germ.rotation = germ.angle + Math.sin(tick);
+  });
+}
+
 function drawCircle() {
   circleGerms.forEach(function (germ, i) {
     var ii = i + tick;
-    var r = 380 + Math.sin(ii * 10) * 20;
+    var r = 360 + Math.sin(ii * 10) * 20;
     germ.destination.x = Math.sin((Math.PI * 2 / circleGerms.length) * ii) * r + center.x;
     germ.destination.y = Math.cos((Math.PI * 2 / circleGerms.length) * ii) * r + center.y;
     germ.angle = (Math.PI * 2 / circleGerms.length) * ii * -1;
